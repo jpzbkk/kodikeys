@@ -24,6 +24,9 @@ var kodikeys = function(opt) {
     // init keyboard interactivity
     keyboard.init(kodi);
 
+    // ping to keep connection  alive
+    setInterval(kodi.ping.bind(kodi), 55 * 1000);
+
     console.log(`connected to ${opt.host} port ${opt.port}`);
   });
 }
