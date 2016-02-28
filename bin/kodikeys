@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+var kodikeys = require('..');
+
+if (process.argv.length < 3) {
+  console.error('Please provide host argument')
+  process.exit(1)
+}
+
+var args = process.argv.slice(1);
+
+const HOST = args[1].split(':')[0]
+const PORT = args[1].split(':')[1] || 9777
+
+
+kodikeys({
+  host: HOST,
+  port: PORT
+})
