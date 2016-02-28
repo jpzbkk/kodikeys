@@ -1,19 +1,38 @@
 #!/usr/bin/env node
 
+var argparse = require('argparse');
 var kodikeys = require('..');
 
-if (process.argv.length < 3) {
-  console.error('Please provide host argument')
-  process.exit(1)
-}
-
-var args = process.argv.slice(1);
-
-const HOST = args[1].split(':')[0]
-const PORT = args[1].split(':')[1] || 9777
-
-
-kodikeys({
-  host: HOST,
-  port: PORT
+// Command line options
+var cli = new argparse.ArgumentParser({
+  prog:     'kodikeys',
+  version:  require('../package.json').version,
+  addHelp:  true
 })
+
+cli.addArgument([ 'host' ], {
+  help:   'The Kodi host to connect to',
+})
+
+cli.addArgument([ '-p', '--port' ], {
+  help:   'The port to connect to (default: 9777)',
+  defaultValue: '9777',
+})
+
+cli.addArgument(['--debug'], {
+  help: 'Shortcut for --log-level debug',
+  dest: 'log_level',
+  constant: 'debug',
+  action: 'storeConst',
+  defaultValue: 'warn'
+})
+
+cli.addArgument(['--log-level'], {
+  defaultValue: 'warn',
+  choices: ['error', 'warn', 'info', 'debug']
+})
+
+var opts = cli.parseArgs();
+
+// run the command
+kodikeys(opts)

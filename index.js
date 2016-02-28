@@ -15,7 +15,10 @@ var kodikeys = function(opt) {
 
   log.setLevel(opt.log_level)
 
-  var kodi = new xec.XBMCEventClient('kodikeys', opt)
+  var kodi = new xec.XBMCEventClient('kodikeys', {
+    host: opt.host,
+    port: opt.port,
+  })
 
   kodi.connect(function(errors, bytes) {
     if (errors.length) {

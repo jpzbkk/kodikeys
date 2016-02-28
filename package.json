@@ -20,6 +20,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "argparse": "^1.0.6",
     "terminal-kit": "^0.24.0",
     "xbmc-event-client": "0.0.2"
   }
