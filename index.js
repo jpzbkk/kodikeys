@@ -23,6 +23,8 @@ var kodikeys = {
       var kodi = new xec.XBMCEventClient('kodikeys', {
         host: opt.host,
         port: opt.port,
+        iconbuffer: fs.readFileSync(path.resolve('./lib/node.png')),
+        icontype: xec.ICON_PNG,
       })
 
       kodi.connect(function(errors, bytes) {
