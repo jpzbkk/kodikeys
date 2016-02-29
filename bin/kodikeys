@@ -35,7 +35,7 @@ cli.addArgument(['--log-level'], {
 var opts = cli.parseArgs();
 
 // run the command
-kodikeys(opts)
+kodikeys.start(opts)
   .then(function() {
     console.log('Bye');
     process.exit(0);

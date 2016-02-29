@@ -7,45 +7,48 @@ var keyboard = require('./lib/keyboard');
 var log = require('./lib/logging');
 
 
-var kodikeys = function(opt) {
-
-  opt = Object.assign({}, {
+var kodikeys = {
+  defaults: {
     port: 9777,
     log_level: 'warn',
-  }, opt);
+  },
 
-  log.setLevel(opt.log_level)
+  start: function(opt) {
+    opt = Object.assign({}, this.defaults, opt);
 
-  return new Promise( (resolve, reject) => {
+    log.setLevel(opt.log_level)
 
-    var kodi = new xec.XBMCEventClient('kodikeys', {
-      host: opt.host,
-      port: opt.port,
-    })
+    return new Promise( (resolve, reject) => {
 
-    kodi.connect(function(errors, bytes) {
-      if (errors.length) {
-        let msg = `Connection failed to host ${opt.host}, port ${opt.port}`;
-        log.error(msg)
-        log.error(errors[0].toString());
-        reject(msg, errors);
-        return;
-      }
+      var kodi = new xec.XBMCEventClient('kodikeys', {
+        host: opt.host,
+        port: opt.port,
+      })
 
-      // init keyboard interactivity
-      keyboard.init(kodi)
+      kodi.connect(function(errors, bytes) {
+        if (errors.length) {
+          let msg = `Connection failed to host ${opt.host}, port ${opt.port}`;
+          log.error(msg)
+          log.error(errors[0].toString());
+          reject(msg, errors);
+          return;
+        }
+
+        // init keyboard interactivity
+        keyboard.init(kodi)
         .then(function finished() {
           resolve();
         });
 
-      // ping to keep connection  alive
-      setInterval(kodi.ping.bind(kodi), 55 * 1000);
+        // ping to keep connection  alive
+        setInterval(kodi.ping.bind(kodi), 55 * 1000);
 
-      console.log(`connected to ${opt.host} port ${opt.port}`);
-    });
+        console.log(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit`);
+      });
 
-  })
+    })
 
+  }
 }
 
 module.exports = kodikeys;
