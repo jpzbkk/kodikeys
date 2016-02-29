@@ -12,16 +12,21 @@
     "kodi",
     "keyboard",
     "remote",
+    "xbmc",
+    "event",
+    "client",
     "cli",
     "control",
     "commandline",
     "command",
-    "command-line"
+    "command-line",
+    "terminal"
   ],
   "license": "MIT",
   "dependencies": {
     "argparse": "^1.0.6",
     "terminal-kit": "^0.24.0",
     "xbmc-event-client": "0.0.2"
-  }
+  },
+  "bin": "./bin/kodikeys"
 }
