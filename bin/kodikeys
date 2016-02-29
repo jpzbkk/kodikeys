@@ -7,11 +7,13 @@ var kodikeys = require('..');
 var cli = new argparse.ArgumentParser({
   prog:     'kodikeys',
   version:  require('../package.json').version,
-  addHelp:  true
+  addHelp:  true,
 })
 
 cli.addArgument([ 'host' ], {
   help:   'The Kodi host to connect to',
+  defaultValue: 'localhost',
+  nargs: '?'
 })
 
 cli.addArgument([ '-p', '--port' ], {
