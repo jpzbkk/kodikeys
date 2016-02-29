@@ -36,3 +36,10 @@ var opts = cli.parseArgs();
 
 // run the command
 kodikeys(opts)
+  .then(function() {
+    console.log('Bye');
+    process.exit(0);
+  })
+  .catch(function(msg, errors) {
+    process.exit(1);
+  })
