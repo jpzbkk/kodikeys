@@ -38,9 +38,7 @@ var kodikeys = {
 
         // init keyboard interactivity
         keyboard.init(kodi)
-        .then(function finished() {
-          resolve();
-        });
+          .then(resolve);
 
         // ping to keep connection  alive
         setInterval(kodi.ping.bind(kodi), 55 * 1000);
