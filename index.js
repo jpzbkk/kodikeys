@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-var fs = require('fs');
-var path = require('path');
-var xec = require('xbmc-event-client');
-var keyboard = require('./lib/keyboard');
-var log = require('./lib/logging');
+var fs = require('fs')
+var path = require('path')
+var xec = require('xbmc-event-client')
+var keyboard = require('./lib/keyboard')
+var log = require('./lib/logging')
 
 
 var kodikeys = {
@@ -14,12 +14,11 @@ var kodikeys = {
   },
 
   start: function(opt) {
-    opt = Object.assign({}, this.defaults, opt);
+    opt = Object.assign({}, this.defaults, opt)
 
     log.setLevel(opt.log_level)
 
     return new Promise( (resolve, reject) => {
-
       var kodi = new xec.XBMCEventClient('kodikeys', {
         host: opt.host,
         port: opt.port,
@@ -29,26 +28,24 @@ var kodikeys = {
 
       kodi.connect(function(errors, bytes) {
         if (errors.length) {
-          let msg = `Connection failed to host ${opt.host}, port ${opt.port}`;
+          let msg = `Connection failed to host ${opt.host}, port ${opt.port}`
           log.error(msg)
-          log.error(errors[0].toString());
-          reject(msg, errors);
-          return;
+          log.error(errors[0].toString())
+          reject(msg, errors)
+          return
         }
 
         // init keyboard interactivity
         keyboard.init(kodi)
-          .then(resolve);
+          .then(resolve)
 
         // ping to keep connection  alive
-        setInterval(kodi.ping.bind(kodi), 55 * 1000);
+        setInterval(kodi.ping.bind(kodi), 55 * 1000)
 
-        console.log(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit`);
-      });
-
+        console.log(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit`)
+      })
     })
-
   }
 }
 
-module.exports = kodikeys;
+module.exports = kodikeys

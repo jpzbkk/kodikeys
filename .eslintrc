@@ -8,13 +8,14 @@
     "rules": {
         "linebreak-style": [2, "unix"],
         "quotes": 0,
-        "no-console": 0,
-        "no-unused-vars": 0,
-        "no-undef": 2,
         "camelcase": 0,
         "comma-dangle": 0,
         "eqeqeq": 1,
         "curly": 1,
+        "no-console": 0,
+        "no-unused-vars": 0,
+        "no-undef": 2,
         "no-loop-func": 2,
+        "semi": [2, "never"],
     }
 }
