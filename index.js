@@ -13,7 +13,7 @@ var kodikeys = {
     log_level: 'warn',
   },
 
-  start: function(opt) {
+  start: function (opt) {
     opt = Object.assign({}, this.defaults, opt)
 
     log.setLevel(opt.log_level)
@@ -26,7 +26,7 @@ var kodikeys = {
         icontype: xec.ICON_PNG,
       })
 
-      kodi.connect(function(errors, bytes) {
+      kodi.connect( (errors, bytes) => {
         if (errors.length) {
           let msg = `Connection failed to host ${opt.host}, port ${opt.port}`
           log.error(msg)
