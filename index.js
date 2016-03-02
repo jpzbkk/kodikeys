@@ -44,7 +44,7 @@ var kodikeys = {
 
         // Connect to kodi json-rpc
         kodiws(opt.host, opt.rpc_port)
-          .then( (con) => {
+          .then( (connection) => {
             log.info(`connected to Kodi rpc on ${opt.host}:${opt.rpc_port}`)
 
             // Start keyboard capture
@@ -53,13 +53,13 @@ var kodikeys = {
 
             // Listen for notifications
             // Input requested by kodi
-            con.notification('Input.OnInputRequested', (resp) => {
+            connection.notification('Input.OnInputRequested', (resp) => {
               keyboard.startTextEntry()
                 .then( (text) => {
                   if (text) {
                     term('sending: ').bold(text)
                     term('\n')
-                    con.Input.SendText(text)
+                    connection.Input.SendText(text)
                   }
                   else {
                     log.debug('No text entered')
@@ -68,7 +68,7 @@ var kodikeys = {
             })
 
             // Input finished
-            con.notification('Input.OnInputFinished', (resp) => {
+            connection.notification('Input.OnInputFinished', (resp) => {
               log.info('input accepted')
               keyboard.exitTextEntry()
             })
