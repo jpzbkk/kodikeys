@@ -91,7 +91,7 @@ var kodikeys = {
             })
           })
           .catch( (error) => {
-            log.error(`Failed to connect to JSON-RPC on ${opt.host} port ${opt.port}`)
+            log.error(`Failed to connect to JSON-RPC on ${opt.host} port ${opt.rpc_port}`)
             log.debug(error.toString())
             log.warn('Some functions, such as sending remote input, will not work')
 
