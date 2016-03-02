@@ -1,7 +1,7 @@
 {
   "name": "kodikeys",
   "version": "0.1.0",
-  "description": "Send commands to Kodi with your keyboard remotely",
+  "description": "Control a remote Kodi instance from your terminal",
   "author": "Eric Bartels",
   "repository": "bartels/kodikeys.git",
   "main": "index.js",

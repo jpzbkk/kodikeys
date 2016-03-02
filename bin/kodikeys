@@ -3,12 +3,14 @@
 var argparse = require('argparse')
 var term = require('terminal-kit').terminal
 var kodikeys = require('..')
+var package_json = require('../package.json')
 
 // Command line options
 var cli = new argparse.ArgumentParser({
   prog:     'kodikeys',
-  version:  require('../package.json').version,
+  version:  package_json.version,
   addHelp:  true,
+  description: package_json.description,
 })
 
 cli.addArgument([ 'host' ], {
