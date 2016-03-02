@@ -34,6 +34,7 @@ var kodikeys = {
 
       // Connect to kodi event server
       ev_client.connect( (errors, bytes) => {
+
         if (errors.length) {
           let msg = `Connection failed to host ${opt.host}, port ${opt.port}`
           log.error(msg)
@@ -49,7 +50,7 @@ var kodikeys = {
 
             // Start keyboard capture
             keyboard.capture(ev_client)
-              .then(resolve)
+              .then(disconnect)
 
             // Listen for notifications
             // Input requested by kodi
@@ -75,8 +76,8 @@ var kodikeys = {
 
             // Quit notification
             connection.notification('System.OnQuit', (resp) => {
-              term.yellow(`Kodi is quitting`)
-              resolve()
+              term.yellow(`Kodi is quitting\n`)
+              disconnect()
             })
 
             // Sleep notification
@@ -96,7 +97,7 @@ var kodikeys = {
 
             // Start keyboard capture
             keyboard.capture(ev_client)
-              .then(resolve)
+              .then(disconnect)
           })
 
         // ping to keep connection  alive
@@ -105,6 +106,14 @@ var kodikeys = {
         term.bold(`connected to Kodi on ${opt.host}, ctrl-c to exit\n`)
         log.info(`connected to EventServer on ${opt.host}, port ${opt.port}`)
       })
+
+      // Disconnect from kodi and return to caller
+      function disconnect () {
+        ev_client.disconnect(() => {
+          resolve()
+        })
+      }
+
     })
   }
 }
