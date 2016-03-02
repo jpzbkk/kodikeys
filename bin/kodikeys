@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var argparse = require('argparse');
-var kodikeys = require('..');
+var argparse = require('argparse')
+var kodikeys = require('..')
 
 // Command line options
 var cli = new argparse.ArgumentParser({
@@ -34,14 +34,14 @@ cli.addArgument(['--log-level'], {
   choices: ['error', 'warn', 'info', 'debug']
 })
 
-var opts = cli.parseArgs();
+var opts = cli.parseArgs()
 
 // run the command
 kodikeys.start(opts)
-  .then(function() {
-    console.log('Bye');
-    process.exit(0);
+  .then( () => {
+    console.log('Bye')
+    process.exit(0)
   })
-  .catch(function(msg, errors) {
-    process.exit(1);
+  .catch( (msg, errors) => {
+    process.exit(1)
   })
