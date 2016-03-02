@@ -45,7 +45,7 @@ var kodikeys = {
         // Connect to kodi json-rpc
         kodiws(opt.host, opt.rpc_port)
           .then( (connection) => {
-            log.info(`connected to Kodi rpc on ${opt.host}:${opt.rpc_port}`)
+            log.info(`connected to json-rpc on ${opt.host}, port ${opt.rpc_port}`)
 
             // Start keyboard capture
             keyboard.capture(ev_client)
@@ -102,7 +102,8 @@ var kodikeys = {
         // ping to keep connection  alive
         setInterval(ev_client.ping.bind(ev_client), 55 * 1000)
 
-        term.bold(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit\n`)
+        term.bold(`connected to Kodi on ${opt.host}, ctrl-c to exit\n`)
+        log.info(`connected to EventServer on ${opt.host}, port ${opt.port}`)
       })
     })
   }
