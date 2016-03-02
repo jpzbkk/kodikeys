@@ -18,8 +18,13 @@ cli.addArgument([ 'host' ], {
 })
 
 cli.addArgument([ '-p', '--port' ], {
-  help:   'The port to connect to (default: 9777)',
+  help:   'The EventServer port (default: 9777)',
   defaultValue: '9777',
+})
+
+cli.addArgument([ '--rpc-port' ], {
+  help:    'The JSON-RPC port (default: 9090)',
+  defaultValue: '9090'
 })
 
 cli.addArgument(['--debug'], {

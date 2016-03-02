@@ -3,6 +3,8 @@
 var fs = require('fs')
 var path = require('path')
 var xec = require('xbmc-event-client')
+var kodiws = require('kodi-ws')
+var term = require('terminal-kit').terminal
 var keyboard = require('./lib/keyboard')
 var log = require('./lib/logging')
 
@@ -10,6 +12,7 @@ var log = require('./lib/logging')
 var kodikeys = {
   defaults: {
     port: 9777,
+    rpc_port: 9090,
     log_level: 'warn',
   },
 
@@ -18,15 +21,19 @@ var kodikeys = {
 
     log.setLevel(opt.log_level)
 
+    // Promise resolves when user closes the connection
     return new Promise( (resolve, reject) => {
-      var kodi = new xec.XBMCEventClient('kodikeys', {
+
+      // Event client setup
+      var ev_client = new xec.XBMCEventClient('kodikeys', {
         host: opt.host,
         port: opt.port,
         iconbuffer: fs.readFileSync(path.join(__dirname, '/lib/node.png')),
         icontype: xec.ICON_PNG,
       })
 
-      kodi.connect( (errors, bytes) => {
+      // Connect to kodi event server
+      ev_client.connect( (errors, bytes) => {
         if (errors.length) {
           let msg = `Connection failed to host ${opt.host}, port ${opt.port}`
           log.error(msg)
@@ -35,12 +42,49 @@ var kodikeys = {
           return
         }
 
-        // init keyboard interactivity
-        keyboard.init(kodi)
-          .then(resolve)
+        // Connect to kodi json-rpc
+        kodiws(opt.host, opt.rpc_port)
+          .then( (con) => {
+            log.info(`connected to Kodi rpc on ${opt.host}:${opt.rpc_port}`)
+
+            // Start keyboard capture
+            keyboard.capture(ev_client)
+              .then(resolve)
+
+            // Listen for notifications
+            // Input requested by kodi
+            con.notification('Input.OnInputRequested', (resp) => {
+              keyboard.startTextEntry()
+                .then( (text) => {
+                  if (text) {
+                    term('sending: ').bold(text)
+                    term('\n')
+                    con.Input.SendText(text)
+                  }
+                  else {
+                    log.debug('No text entered')
+                  }
+                })
+            })
+
+            // Input finished
+            con.notification('Input.OnInputFinished', (resp) => {
+              log.info('input accepted')
+              keyboard.exitTextEntry()
+            })
+          })
+          .catch( (error) => {
+            log.error(`Failed to connect to JSON-RPC on ${opt.host} port ${opt.port}`)
+            log.debug(error.toString())
+            log.warn('Some functions, such as sending remote input, will not work')
+
+            // Start keyboard capture
+            keyboard.capture(ev_client)
+              .then(resolve)
+          })
 
         // ping to keep connection  alive
-        setInterval(kodi.ping.bind(kodi), 55 * 1000)
+        setInterval(ev_client.ping.bind(ev_client), 55 * 1000)
 
         console.log(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit`)
       })
