@@ -72,6 +72,22 @@ var kodikeys = {
               log.info('input accepted')
               keyboard.exitTextEntry()
             })
+
+            // Quit notification
+            connection.notification('System.OnQuit', (resp) => {
+              term.yellow(`Kodi is quitting`)
+              resolve()
+            })
+
+            // Sleep notification
+            connection.notification('System.OnSleep', (resp) => {
+              term.yellow('Kodi is being put into sleep mode...\n')
+            })
+
+            // Wake notification
+            connection.notification('System.OnWake', (resp) => {
+              term.green('Kodi has woken up from sleep mode\n')
+            })
           })
           .catch( (error) => {
             log.error(`Failed to connect to JSON-RPC on ${opt.host} port ${opt.port}`)
