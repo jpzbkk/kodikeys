@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var argparse = require('argparse')
+var term = require('terminal-kit').terminal
 var kodikeys = require('..')
 
 // Command line options
@@ -40,8 +41,8 @@ var opts = cli.parseArgs()
 kodikeys.start(opts)
   .then( () => {
     console.log('Bye')
-    process.exit(0)
+    term.processExit(0)
   })
   .catch( (msg, errors) => {
-    process.exit(1)
+    term.processExit(1)
   })
