@@ -37,7 +37,7 @@ var kodikeys = {
         if (errors.length) {
           let msg = `Connection failed to host ${opt.host}, port ${opt.port}`
           log.error(msg)
-          log.error(errors[0].toString())
+          log.debug(errors[0].toString())
           reject(msg, errors)
           return
         }
@@ -86,7 +86,7 @@ var kodikeys = {
         // ping to keep connection  alive
         setInterval(ev_client.ping.bind(ev_client), 55 * 1000)
 
-        console.log(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit`)
+        term.bold(`connected to Kodi on ${opt.host}:${opt.port}, ctrl-c to exit\n`)
       })
     })
   }
