@@ -109,9 +109,8 @@ var kodikeys = {
 
       // Disconnect from kodi and return to caller
       function disconnect () {
-        ev_client.disconnect(() => {
-          resolve()
-        })
+        ev_client.disconnect(resolve)
+        setTimeout(resolve, 250)
       }
 
     })
