@@ -31,7 +31,7 @@ kodikeys -h
 
 Keyboard combinations using `ctrl` key do not work, as Kodi's EventServer does not seem to recognize them.
 
-When running `npm install` you may get compile errors due to old dependencies for the `kodi-ws` package. You should still be able to run kodikeys without these dependencies installed.
+Using shrinkwrapped dependencies to pull in later ws version than kodi-ws uses. Old versoins of ws package do not install properly on newer nodejs versions.
 
 ## Resources
 [Kodi keyboard reference](http://kodi.wiki/view/Keyboard_controls)  
