@@ -31,8 +31,6 @@ kodikeys -h
 
 Keyboard combinations using `ctrl` key do not work, as Kodi's EventServer does not seem to recognize them.
 
-Using shrinkwrapped dependencies to pull in later ws version than kodi-ws uses. Old versoins of ws package do not install properly on newer nodejs versions.
-
 ## Resources
 [Kodi keyboard reference](http://kodi.wiki/view/Keyboard_controls)  
 [Kodi EventServer](http://kodi.wiki/view/EventServer)  
